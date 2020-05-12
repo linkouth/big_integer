@@ -135,7 +135,7 @@ class BigInt:
             return self.div_mod_positive(self, number, self.is_negative != number.is_negative, False)
 
     #
-    # Реализация алгоритма по Кнуту
+    # Реализация алгоритма деления по Кнуту
     #
     def div_mod_positive(self, a, b, is_negative=False, is_div=True):
         # D1 Нормализация
@@ -254,63 +254,6 @@ class BigInt:
             return ans
         else:
             return BigInt(str(k))
-
-    # Реализация возведения в степень
-    def pow(self, power, mod):
-        # A1 Инициализация
-        n = power
-        y = BigInt('1')
-        z = self
-
-        while n.compare_with(BigInt('0')) != 0:
-            # A2 Деление N пополам
-            is_even = BigInt(str(n.rem(BigInt('2')))).compare_with(BigInt('0'))
-
-            n = n.div(BigInt('2'))
-
-            if is_even != 0:
-                # A3 Умножение Y на Z
-                y = (z.multiply(y)).rem(mod)
-                # A4 N = 0?
-                is_zero = n.compare_with(BigInt('0'))
-                if is_zero == 0:
-                    return y
-            # A5 Возведение Z в квадрат
-            z = (z.multiply(z)).rem(mod)
-
-        return y
-
-    def compare_with(self, big_number):
-        if self.is_negative == big_number.is_negative:
-            if self.is_negative:
-                return -self.compare_by_radix(big_number)
-            else:
-                return self.compare_by_radix(big_number)
-        else:
-            if self.is_negative:
-                return -1
-            else:
-                return 1
-
-    def compare_by_radix(self, big_number):
-        if len(self.value) == len(big_number.value):
-            idx = len(self.value) - 1
-            while idx >= 0 and self.value[idx] == big_number.value[idx]:
-                idx -= 1
-            if idx < 0:
-                return 0
-            else:
-                if self.value[idx] > big_number.value[idx]:
-                    return 1
-                elif self.value[idx] < big_number.value[idx]:
-                    return -1
-                else:
-                    return 0
-        else:
-            if len(self.value) > len(big_number.value):
-                return 1
-            else:
-                return 0
 
     # Нормализация числа
     def normalized(self):
