@@ -4,15 +4,16 @@ from big_integer import BigInt
 
 
 def handle_exponentiation(a, b, c):
-    if int(str(a)) == 0 and int(str(b)) == 0:
-        print('Основание и показатель не могут одновременно быть равны нулю')
-        return
     if int(str(c)) <= 0:
         print('Модуль должен быть больше нуля')
         return
     # Сравнение времени работы возведения в степень по модулю
     time_exp_start = datetime.now()
-    exp_result = a.pow(b, c)
+    if int(str(a)) == 0 and int(str(b)) == 0:
+        if int(str(c)) > 1:
+            exp_result = BigInt('1')
+    else:
+        exp_result = a.pow(b, c)
     if int(str(c)) == 1:
         exp_result = BigInt('0')
     time_exp_end = datetime.now()
